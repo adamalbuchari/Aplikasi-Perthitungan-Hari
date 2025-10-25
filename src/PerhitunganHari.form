@@ -295,6 +295,9 @@
               <SpinnerModel initial="2025" maximum="9999" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerTahunAwalStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinnerTahunAkhir">
           <Properties>
@@ -315,6 +318,7 @@
             <Property name="text" type="java.lang.String" value="Hitung"/>
           </Properties>
           <Events>
+            <EventHandler event="componentAdded" listener="java.awt.event.ContainerListener" parameters="java.awt.event.ContainerEvent" handler="btnHitungComponentAdded"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHitungActionPerformed"/>
           </Events>
         </Component>

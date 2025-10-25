@@ -23,6 +23,8 @@ public class PerhitunganHari extends javax.swing.JFrame {
         spinnerTahunAwal.setEditor(new javax.swing.JSpinner.NumberEditor(spinnerTahunAwal, "#"));
     spinnerTahunAkhir.setEditor(new javax.swing.JSpinner.NumberEditor(spinnerTahunAkhir, "#"));
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,11 +87,21 @@ public class PerhitunganHari extends javax.swing.JFrame {
         cmbBulanAkhir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
 
         spinnerTahunAwal.setModel(new javax.swing.SpinnerNumberModel(2025, 1, 9999, 1));
+        spinnerTahunAwal.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerTahunAwalStateChanged(evt);
+            }
+        });
 
         spinnerTahunAkhir.setModel(new javax.swing.SpinnerNumberModel(2025, 1, 9999, 1));
 
         btnHitung.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnHitung.setText("Hitung");
+        btnHitung.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                btnHitungComponentAdded(evt);
+            }
+        });
         btnHitung.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHitungActionPerformed(evt);
@@ -231,21 +243,20 @@ public class PerhitunganHari extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
-        try {
+         try {
         // Ambil tanggal dari JCalendar
         LocalDate tgl1 = calAwal.getDate().toInstant()
                 .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         LocalDate tgl2 = calAkhir.getDate().toInstant()
                 .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
 
-        // Ambil nama hari dari tanggal yang dipilih
+        // Ambil nama hari
         java.util.Locale lokalID = new java.util.Locale("id", "ID");
         String namaHariPertama = tgl1.getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, lokalID);
         String namaHariTerakhir = tgl2.getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, lokalID);
 
-        // Hitung jumlah hari dalam bulan dari tanggal pertama
-        java.time.YearMonth yearMonth = java.time.YearMonth.of(tgl1.getYear(), tgl1.getMonthValue());
-        int jumlahHari = yearMonth.lengthOfMonth();
+        // Hitung jumlah hari antara dua tanggal
+        long jumlahHari = java.time.temporal.ChronoUnit.DAYS.between(tgl1, tgl2) + 1;
 
         // Tampilkan hasil
         lblHariPertama.setText("Hari Pertama : " + namaHariPertama);
@@ -290,6 +301,24 @@ public class PerhitunganHari extends javax.swing.JFrame {
         System.exit(0);
     }
     }//GEN-LAST:event_btnHitung1ActionPerformed
+
+    private void btnHitungComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_btnHitungComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHitungComponentAdded
+
+    private void spinnerTahunAwalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerTahunAwalStateChanged
+        spinnerTahunAwal.addChangeListener(new javax.swing.event.ChangeListener() {
+    public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        System.out.println("Tahun awal diubah menjadi: " + spinnerTahunAwal.getValue());
+    }
+});
+
+spinnerTahunAkhir.addChangeListener(new javax.swing.event.ChangeListener() {
+    public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        System.out.println("Tahun akhir diubah menjadi: " + spinnerTahunAkhir.getValue());
+    }
+});
+    }//GEN-LAST:event_spinnerTahunAwalStateChanged
 
     /**
      * @param args the command line arguments
